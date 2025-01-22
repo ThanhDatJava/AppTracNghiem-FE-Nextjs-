@@ -1,6 +1,6 @@
 # Next.js template
 
-Template này được sử dụng cho video fullstack Next.js/Nest.js của tác giả Hỏi Dân IT (Eric)
+Template này được sử dụng cho video fullstack Next.js/Nest.js của tác giả Thành Đạt (Eric)
 
 ### Môi trường chạy dự án: Node.js v20.14.0
 
@@ -8,17 +8,17 @@ https://nodejs.org/download/release/v20.14.0/
 
 ## Về tác giả
 
-Mọi thông tin về Tác giả Hỏi Dân IT, các bạn có thể tìm kiếm tại đây:
+Mọi thông tin về Tác giả Thành Đạt, các bạn có thể tìm kiếm tại đây:
 
 Website chính thức: https://thanhdat.vn/
 
-Youtube “Hỏi Dân IT” : https://www.youtube.com/@thanhdat
+Youtube “Thành Đạt” : https://www.youtube.com/@thanhdat
 
-Tiktok “Hỏi Dân IT” : https://www.tiktok.com/@thanhdat
+Tiktok “Thành Đạt” : https://www.tiktok.com/@thanhdat
 
-Fanpage “Hỏi Dân IT” : https://www.facebook.com/askITwithERIC/
+Fanpage “Thành Đạt” : https://www.facebook.com/askITwithERIC/
 
-Udemy Hỏi Dân IT: https://www.udemy.com/user/eric-7039/
+Udemy Thành Đạt: https://www.udemy.com/user/eric-7039/
 
 ===
 
