@@ -56,20 +56,21 @@ const AdminSideBar = () => {
           onClick: () => handleMenuClick("/dashboard/user"), // Handle click and navigate
         },
         {
-          key: "/dashboard/question",
+          key: "/dashboard/admin/question",
           label: "Manage Question",
           icon: <SettingOutlined />,
           children: [
             {
-              key: "/dashboard/question/manage-question",
+              key: "/dashboard/admin/question/manage-question",
               label: "Question",
               onClick: () =>
-                handleMenuClick("/dashboard/question/manage-question"),
+                handleMenuClick("/dashboard/admin/question/manage-question"),
             },
             {
-              key: "/dashboard/question/manage-quiz",
+              key: "/dashboard/admin/question/manage-quiz",
               label: "Quiz",
-              onClick: () => handleMenuClick("/dashboard/question/manage-quiz"),
+              onClick: () =>
+                handleMenuClick("/dashboard/admin/question/manage-quiz"),
             },
           ],
         },

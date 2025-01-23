@@ -20,7 +20,8 @@ import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { sendRequest } from "@/utils/api";
 
 interface ModalEditQuestionProps {
-  createQuestion: (createQuestion: QuestionDetail) => void;
+  createQuestionByQuiz: (createQuestion: QuestionDetail) => void;
+  _id_quiz: string;
 }
 
 interface QuestionDetail {
@@ -35,8 +36,9 @@ interface QuestionDetail {
   _id_quiz: string;
 }
 
-const ModalCreateQuestion: React.FC<ModalEditQuestionProps> = ({
-  createQuestion,
+const ModalCreateQuestionByQuiz: React.FC<ModalEditQuestionProps> = ({
+  createQuestionByQuiz,
+  _id_quiz,
 }) => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<string | undefined>();
@@ -58,23 +60,21 @@ const ModalCreateQuestion: React.FC<ModalEditQuestionProps> = ({
       // Validate form fields
       const values = await form.validateFields();
       values.image = image || ""; // Add image to form values
+      values._id_quiz = _id_quiz || "";
 
       // Send data to backend
+
       const res = await sendRequest<any>({
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/question/create-detail-question`,
         method: "POST",
         body: values, // Send the entire values object to the API
       });
-
       if (+res.statusCode === 201) {
         message.success("Question created successfully!");
-
         // Gán _id từ phản hồi API vào values
         values._id = res.data._id;
-
         // Gọi hàm createQuestion và truyền values với _id mới
-        createQuestion(values);
-
+        createQuestionByQuiz(values);
         closeModal(); // Close the modal on success
       } else {
         message.error("Failed to create question. Please try again.");
@@ -250,4 +250,4 @@ const ModalCreateQuestion: React.FC<ModalEditQuestionProps> = ({
   );
 };
 
-export default ModalCreateQuestion;
+export default ModalCreateQuestionByQuiz;

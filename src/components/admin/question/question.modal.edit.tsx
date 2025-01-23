@@ -32,6 +32,7 @@ interface ModalEditQuestionProps {
     explanation: string[];
     difficulty_level: string;
     image: string;
+    _id_quiz: string;
   };
 }
 
@@ -44,6 +45,7 @@ interface QuestionDetail {
   explanation: string[];
   difficulty_level: string;
   image: string;
+  _id_quiz: string;
 }
 
 const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
@@ -232,6 +234,45 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
               </div>
             )}
           </Upload>
+        </Form.Item>
+
+        <Form.Item label="ID Quiz" name="_id_quiz" style={{ width: "90%" }}>
+          <Form.List name="_id_quiz">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Row key={field.key} gutter={20} align="middle">
+                    <Col flex="auto">
+                      <Form.Item
+                        {...field}
+                        label={`Quiz : ${index + 1}`}
+                        style={{ marginBottom: 10 }}
+                      >
+                        <Input defaultValue={detailModalEdit?.options[index]} />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Button
+                        type="text"
+                        onClick={() => remove(field.name)}
+                        icon={<DeleteOutlined />}
+                      />
+                    </Col>
+                  </Row>
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    icon={<PlusOutlined />}
+                    disabled={fields.length >= 4}
+                  >
+                    Add Option
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
         </Form.Item>
       </Form>
     </Modal>

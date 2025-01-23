@@ -150,23 +150,6 @@ const ModalCreateQuiz: React.FC<PropPageQuiz> = ({ fetchQuiz }) => {
             <Input />
           </Form.Item>
 
-          {/* <Form.Item
-            label="Questions"
-            name="questions"
-            rules={[
-              {
-                required: true,
-                message: "Please select the difficulty level!",
-              },
-            ]}
-          >
-            <Select style={{ width: "20%" }}>
-              <Select.Option value="easy">Easy</Select.Option>
-              <Select.Option value="medium">Medium</Select.Option>
-              <Select.Option value="hard">Hard</Select.Option>
-            </Select>
-          </Form.Item> */}
-
           <Form.Item
             label="Duration minutes"
             name="duration_minutes"

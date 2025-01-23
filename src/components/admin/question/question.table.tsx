@@ -15,6 +15,7 @@ interface QuestionDetail {
   explanation: string[];
   difficulty_level: string;
   image: string;
+  _id_quiz: string;
 }
 
 interface QuestionTableProps {

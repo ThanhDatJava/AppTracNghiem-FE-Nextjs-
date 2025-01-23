@@ -7,6 +7,7 @@ interface IUser {
   name: string;
   email: string;
   access_token: string;
+  role: string;
 }
 
 // Extend JWT interface with additional properties
