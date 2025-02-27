@@ -44,7 +44,7 @@ const ManageQuiz = () => {
   const handleDetailQuiz = (quizId: string, quiz_name: string) => {
     // Navigate to the quiz detail page
 
-    router.push(`/dashboard/admin/question/manage-quiz/${quizId}`); // Replace `/quiz/${quizId}` with your actual route
+    router.push(`/study/admin/question/manage-quiz/${quizId}`); // Replace `/quiz/${quizId}` with your actual route
   };
 
   if (isLoading) {

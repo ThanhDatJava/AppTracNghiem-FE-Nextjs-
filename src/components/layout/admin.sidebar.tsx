@@ -1,91 +1,188 @@
 "use client";
-import Layout from "antd/es/layout";
-import Menu from "antd/es/menu";
+
+import React, { useContext, useEffect, useState } from "react";
+import { Layout, Menu } from "antd";
 import {
   AppstoreOutlined,
   TeamOutlined,
   SettingOutlined,
+  BookTwoTone,
+  FileTextOutlined,
+  AppstoreAddOutlined,
+  ReadOutlined,
+  UserAddOutlined,
+  UserOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
-import React, { useContext, useEffect, useState } from "react";
-import { AdminContext } from "@/library/admin.context";
+// import { useRouter } from "next/router";
+
 import { useRouter } from "next/navigation";
-import type { MenuProps } from "antd";
+import { AdminContext } from "@/library/admin.context";
 
-type MenuItem = Required<MenuProps>["items"][number];
+const { Sider } = Layout;
+const { SubMenu } = Menu;
 
-const AdminSideBar = () => {
-  const { Sider } = Layout;
+type MenuItem = {
+  key: string;
+  label: string;
+  icon?: JSX.Element;
+  children?: MenuItem[];
+  onClick?: () => void;
+};
+
+const AdminSideBar = (props: any) => {
+  const { session } = props;
   const { collapseMenu } = useContext(AdminContext) || { collapseMenu: false };
+  const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
 
-  const [isMounted, setIsMounted] = useState(false); // To track client-side mounting
-  const router = useRouter(); // Initialize useRouter hook
-
-  // Set isMounted to true once the component is mounted (client-side)
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Return null or loading state if not mounted yet
   if (!isMounted) {
     return null;
   }
 
-  // Handle click and navigate using router.push()
   const handleMenuClick = (key: string) => {
-    // Navigate to the corresponding route
-
     router.push(key);
   };
 
-  const items: MenuItem[] = [
-    {
-      key: "grp",
-      label: "Thành Đạt",
-      type: "group",
-      children: [
-        {
-          key: "/dashboard", // The path to navigate
-          label: "Dashboard", // The text label
-          icon: <AppstoreOutlined />,
-          onClick: () => handleMenuClick("/dashboard"), // Handle click and navigate
-        },
-        {
-          key: "/dashboard/user",
-          label: "Manage Users",
-          icon: <TeamOutlined />,
-          onClick: () => handleMenuClick("/dashboard/user"), // Handle click and navigate
-        },
-        {
-          key: "/dashboard/admin/question",
-          label: "Manage Question",
-          icon: <SettingOutlined />,
-          children: [
-            {
-              key: "/dashboard/admin/question/manage-question",
-              label: "Question",
-              onClick: () =>
-                handleMenuClick("/dashboard/admin/question/manage-question"),
-            },
-            {
-              key: "/dashboard/admin/question/manage-quiz",
-              label: "Quiz",
-              onClick: () =>
-                handleMenuClick("/dashboard/admin/question/manage-quiz"),
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  const getMenuItems = (role: string): MenuItem[] => {
+    let items: MenuItem[] = [];
+
+    switch (role) {
+      case "ADMIN":
+        items = [
+          {
+            key: "/study",
+            label: "Admin",
+            icon: <AppstoreOutlined />,
+            onClick: () => handleMenuClick("/study"),
+          },
+          {
+            key: "/study/user",
+            label: "Manage Users",
+            icon: <TeamOutlined />,
+            onClick: () => handleMenuClick("/study/user"),
+          },
+        ];
+        break;
+
+      case "TEACHER":
+        items = [
+          {
+            key: "/study",
+            label: "Teacher",
+            icon: <UserOutlined />,
+            onClick: () => handleMenuClick("/study"),
+          },
+
+          {
+            key: "/study/question",
+            label: "Manage Question",
+            icon: <ReadOutlined />,
+            children: [
+              {
+                key: "/study/question/manage-question",
+                label: "Question",
+                onClick: () =>
+                  handleMenuClick("/study/question/manage-question"),
+              },
+              {
+                key: "/study/question/manage-quiz",
+                label: "Quiz",
+                onClick: () => handleMenuClick("/study/question/manage-quiz"),
+              },
+            ],
+          },
+          {
+            key: "/study/question",
+            label: "Manage Student",
+            icon: <UsergroupAddOutlined />,
+            children: [
+              {
+                key: "/study/question/manage-question",
+                label: "Score",
+                onClick: () =>
+                  handleMenuClick("/study/question/manage-question"),
+              },
+              {
+                key: "/study/question/manage-quiz",
+                label: "Information",
+                onClick: () => handleMenuClick("/study/question/manage-quiz"),
+              },
+            ],
+          },
+        ];
+        break;
+
+      case "USER":
+        items = [
+          {
+            key: "/study",
+            label: "Student",
+            icon: <AppstoreOutlined />,
+            onClick: () => handleMenuClick("/study"),
+          },
+          {
+            key: "/study/user/profile",
+            label: "My Profile",
+            icon: <TeamOutlined />,
+            onClick: () => handleMenuClick("/study/user/profile"),
+          },
+          // Add more menu items specific to USER role as needed
+        ];
+        break;
+      default:
+        // Default menu items for roles other than ADMIN and USER
+        items = [
+          {
+            key: "/study",
+            label: "Default",
+            icon: <AppstoreOutlined />,
+            onClick: () => handleMenuClick("/study"),
+          },
+        ];
+        break;
+    }
+
+    return items;
+  };
+
+  const items = getMenuItems(session.user.role);
 
   return (
     <Sider collapsed={collapseMenu}>
       <Menu
         mode="inline"
-        defaultSelectedKeys={["/dashboard"]}
-        items={items}
-        style={{ height: "100vh" }}
-      />
+        defaultSelectedKeys={["/study"]}
+        style={{ height: "100%", borderRight: 0 }}
+      >
+        {items.map((menuItem) =>
+          menuItem.children ? (
+            <SubMenu
+              key={menuItem.key}
+              icon={menuItem.icon}
+              title={menuItem.label}
+            >
+              {menuItem.children.map((childItem) => (
+                <Menu.Item key={childItem.key} onClick={childItem.onClick}>
+                  {childItem.label}
+                </Menu.Item>
+              ))}
+            </SubMenu>
+          ) : (
+            <Menu.Item
+              key={menuItem.key}
+              icon={menuItem.icon}
+              onClick={menuItem.onClick}
+            >
+              {menuItem.label}
+            </Menu.Item>
+          )
+        )}
+      </Menu>
     </Sider>
   );
 };

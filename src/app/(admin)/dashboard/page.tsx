@@ -1,13 +1,8 @@
 import { auth } from "@/auth";
-import AdminCard from "@/components/admin/admin.card";
 
-const DashboardPage = async () => {
- 
-  return (
-    <div>
-      <AdminCard />
-    </div>
-  );
-};
+export default async function HomePageMain() {
+  const session = await auth();
+  const role = session?.user?.role;
 
-export default DashboardPage;
+  return <>{role}</>;
+}

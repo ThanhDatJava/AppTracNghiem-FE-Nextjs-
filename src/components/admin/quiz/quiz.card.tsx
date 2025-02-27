@@ -35,7 +35,14 @@ const QuizCard: React.FC<QuizCardProps> = ({ dataQuiz }) => {
         <img
           alt={dataQuiz.quiz_name}
           src={imageUrl}
-          style={{ width: "100%", height: "auto", objectFit: "cover" }}
+          style={{
+            width: "100%",
+            height: "auto",
+            objectFit: "cover",
+            minHeight: "200px",
+            maxHeight: "350px",
+            overflow: "auto",
+          }}
         />
       }
     >

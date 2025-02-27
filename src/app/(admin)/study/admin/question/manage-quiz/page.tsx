@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation"; // Import useRouter
 import { sendRequest } from "@/utils/api";
 import QuizCard from "@/components/admin/quiz/quiz.card";
 import ModalCreateQuiz from "@/components/admin/quiz/quiz.modal.create";
+import { Button, Popconfirm } from "antd";
+import { DeleteTwoTone } from "@ant-design/icons";
+import ModalEditQuiz from "@/components/admin/quiz/quiz.modal.edit";
 
 interface IQuiz {
   _id: string;
@@ -44,7 +47,20 @@ const ManageQuiz = () => {
   const handleDetailQuiz = (quizId: string, quiz_name: string) => {
     // Navigate to the quiz detail page
 
-    router.push(`/dashboard/admin/question/manage-quiz/${quizId}`); // Replace `/quiz/${quizId}` with your actual route
+    router.push(`/study/admin/question/manage-quiz/${quizId}`); // Replace `/quiz/${quizId}` with your actual route
+  };
+
+  const handleDeleteQuiz = async (quizId: string) => {
+    // Navigate to the quiz detail page
+
+    const res = await sendRequest<any>({
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/quiz/delete-detail-quiz`,
+      method: "POST",
+      body: { _id: quizId },
+    });
+    if (+res?.statusCode === 201) {
+      fetchQuiz();
+    }
   };
 
   if (isLoading) {
@@ -91,11 +107,42 @@ const ManageQuiz = () => {
         }}
       >
         {quiz.map((quizItem) => (
-          <div
-            key={quizItem._id}
-            onClick={() => handleDetailQuiz(quizItem._id, quizItem.quiz_name)}
-          >
-            <QuizCard dataQuiz={quizItem} />
+          <div key={quizItem._id}>
+            <div
+              onClick={() => handleDetailQuiz(quizItem._id, quizItem.quiz_name)}
+            >
+              <QuizCard dataQuiz={quizItem} />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+
+                maxHeight: "300px",
+              }}
+            >
+              <ModalEditQuiz fetchQuiz={fetchQuiz} _id={quizItem._id} />
+              <Popconfirm
+                title="Are you sure?"
+                onConfirm={() => handleDeleteQuiz(quizItem._id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button
+                  type="dashed"
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    marginLeft: "1rem",
+                  }}
+                >
+                  Delete
+                </Button>
+              </Popconfirm>
+            </div>
           </div>
         ))}
       </div>

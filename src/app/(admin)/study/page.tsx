@@ -1,8 +1,9 @@
 import { auth } from "@/auth";
 
-export default async function HomePageMain() {
+const DashboardPage = async () => {
   const session = await auth();
-  const role = session?.user?.role;
+  const role = session?.user.role;
+  return <div>{role}</div>;
+};
 
-  return <>{role}</>;
-}
+export default DashboardPage;

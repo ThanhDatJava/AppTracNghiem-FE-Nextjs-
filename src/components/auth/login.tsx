@@ -36,7 +36,7 @@ const Login: React.FC = () => {
         description: res?.error,
       });
     } else {
-      router.push("/");
+      router.push("/study");
     }
   };
 

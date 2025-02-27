@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { message } from "antd";
+
 import QuestionTable from "@/components/admin/question/question.table";
 import { sendRequest } from "@/utils/api";
 
@@ -15,6 +15,7 @@ type QuestionDetail = {
   explanation: string[];
   difficulty_level: string;
   image: string;
+  _id_quiz: string;
 };
 
 type IBackendRes<T> = {
