@@ -6,9 +6,8 @@ import { sendRequest } from "@/utils/api";
 import QuizCard from "@/components/admin/quiz/quiz.card";
 import ModalCreateQuiz from "@/components/admin/quiz/quiz.modal.create";
 import { Button, Popconfirm } from "antd";
-import { DeleteTwoTone } from "@ant-design/icons";
+// import ModalEditQuiz from "@/components/admin/quiz/quiz.modal.edit";
 import ModalEditQuiz from "@/components/admin/quiz/quiz.modal.edit";
-
 interface IQuiz {
   _id: string;
   quiz_name: string;
@@ -91,7 +90,7 @@ const ManageQuiz = () => {
     <>
       <h1
         style={{
-          marginBottom: "50px",
+          marginBottom: "20px",
         }}
       >
         Manage Quiz
@@ -120,7 +119,7 @@ const ManageQuiz = () => {
                 justifyContent: "flex-end",
                 alignItems: "center",
 
-                maxHeight: "300px",
+                maxHeight: "1000px",
               }}
             >
               <ModalEditQuiz fetchQuiz={fetchQuiz} _id={quizItem._id} />

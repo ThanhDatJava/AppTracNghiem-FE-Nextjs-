@@ -39,8 +39,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ dataQuiz }) => {
             width: "100%",
             height: "auto",
             objectFit: "cover",
-            minHeight: "200px",
-            maxHeight: "350px",
+            minHeight: "150px",
+            maxHeight: "150px",
             overflow: "auto",
           }}
         />

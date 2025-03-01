@@ -69,6 +69,53 @@ const AdminSideBar = (props: any) => {
         ];
         break;
 
+      // case "TEACHER":
+      //   items = [
+      //     {
+      //       key: "/study",
+      //       label: "Teacher",
+      //       icon: <UserOutlined />,
+      //       onClick: () => handleMenuClick("/study"),
+      //     },
+
+      //     {
+      //       key: "/study/question",
+      //       label: "Manage Question",
+      //       icon: <ReadOutlined />,
+      //       children: [
+      //         {
+      //           key: "/study/question/manage-question",
+      //           label: "Question",
+      //           onClick: () =>
+      //             handleMenuClick("/study/question/manage-question"),
+      //         },
+      //         {
+      //           key: "/study/question/manage-quiz",
+      //           label: "Quiz",
+      //           onClick: () => handleMenuClick("/study/question/manage-quiz"),
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       key: "/study/question",
+      //       label: "Manage Student",
+      //       icon: <UsergroupAddOutlined />,
+      //       children: [
+      //         {
+      //           key: "/study/question/manage-question",
+      //           label: "Score",
+      //           onClick: () =>
+      //             handleMenuClick("/study/question/manage-question"),
+      //         },
+      //         {
+      //           key: "/study/question/manage-quiz",
+      //           label: "Information",
+      //           onClick: () => handleMenuClick("/study/question/manage-quiz"),
+      //         },
+      //       ],
+      //     },
+      //   ];
+      //   break;
       case "TEACHER":
         items = [
           {
@@ -90,27 +137,27 @@ const AdminSideBar = (props: any) => {
                   handleMenuClick("/study/question/manage-question"),
               },
               {
-                key: "/study/question/manage-quiz",
+                key: "/study/question/manage-quiz", // Unique path for the quiz
                 label: "Quiz",
                 onClick: () => handleMenuClick("/study/question/manage-quiz"),
               },
             ],
           },
           {
-            key: "/study/question",
+            key: "/study/student", // Changed to ensure uniqueness for student management
             label: "Manage Student",
             icon: <UsergroupAddOutlined />,
             children: [
               {
-                key: "/study/question/manage-question",
+                key: "/study/question/manage-score", // Changed to a unique path for score
                 label: "Score",
-                onClick: () =>
-                  handleMenuClick("/study/question/manage-question"),
+                onClick: () => handleMenuClick("/study/question/manage-score"),
               },
               {
-                key: "/study/question/manage-quiz",
+                key: "/study/question/manage-student-info", // Changed to a unique path for student info
                 label: "Information",
-                onClick: () => handleMenuClick("/study/question/manage-quiz"),
+                onClick: () =>
+                  handleMenuClick("/study/question/manage-student-info"),
               },
             ],
           },

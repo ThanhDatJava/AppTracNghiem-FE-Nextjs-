@@ -17,23 +17,13 @@ import {
 } from "@ant-design/icons";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { sendRequest } from "@/utils/api";
+import { Option } from "antd/es/mentions";
 
 interface ModalEditQuestionProps {
   isOpenModalEdit: boolean;
   closeModal: () => void;
   updateQuestion: (updatedQuestion: QuestionDetail) => void;
-
-  detailModalEdit?: {
-    _id: string;
-    category: string;
-    question_text: string;
-    options: string[];
-    correct_answer: string;
-    explanation: string[];
-    difficulty_level: string;
-    image: string;
-    _id_quiz: string;
-  };
+  detailModalEdit?: QuestionDetail;
 }
 
 interface QuestionDetail {
@@ -48,6 +38,11 @@ interface QuestionDetail {
   _id_quiz: string;
 }
 
+interface Quiz {
+  _id: string;
+  quiz_name: string;
+}
+
 const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
   isOpenModalEdit,
   closeModal,
@@ -59,7 +54,7 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
   const [image, setImage] = useState<string | undefined>(
     detailModalEdit?.image
   );
-
+  const [nameQuiz, setNameQuiz] = useState<Quiz[]>([]);
   const getResponsiveWidth = (): string => {
     if (screens.xxl) return "40%";
     if (screens.xl) return "50%";
@@ -70,10 +65,27 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
   };
 
   useEffect(() => {
-    if (isOpenModalEdit && detailModalEdit) {
-      form.setFieldsValue(detailModalEdit);
-      setImage(detailModalEdit.image);
-    }
+    const fetchData = async () => {
+      try {
+        const resNameQuiz = await sendRequest<any>({
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/quiz/get-name-quiz`,
+          method: "GET",
+        });
+        if (resNameQuiz) {
+          setNameQuiz(resNameQuiz.data);
+        }
+
+        if (isOpenModalEdit && detailModalEdit) {
+          form.setFieldsValue(detailModalEdit);
+          setImage(detailModalEdit.image);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        message.error("Failed to fetch quiz data.");
+      }
+    };
+
+    fetchData();
   }, [isOpenModalEdit, detailModalEdit, form]);
 
   const beforeUpload = (file: any) => {
@@ -103,17 +115,16 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
+      values.image = image || "";
 
-      // Manually add the image data to the form values
-      values.image = image || ""; // Assuming `image` is the Base64 string of the image
       if (detailModalEdit) {
-        values._id = detailModalEdit._id; // Ensure _id is included in the payload
+        values._id = detailModalEdit._id;
       }
 
       const res = await sendRequest<any>({
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/question/edit-detail-question`,
         method: "POST",
-        body: values, // Send the entire values object to the API endpoint
+        body: values,
       });
 
       if (+res.statusCode === 201) {
@@ -129,12 +140,17 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
     }
   };
 
+  const closeModalHandler = () => {
+    closeModal();
+    form.resetFields();
+  };
+
   return (
     <Modal
       centered
       open={isOpenModalEdit}
       onOk={handleOk}
-      onCancel={closeModal}
+      onCancel={closeModalHandler}
       width={getResponsiveWidth()}
       maskClosable={false}
     >
@@ -228,27 +244,26 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
             {image ? (
               <img src={image} alt="question" style={{ width: "100%" }} />
             ) : (
-              <div>
-                <UploadOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
+              <UploadOutlined />
             )}
           </Upload>
         </Form.Item>
 
-        <Form.Item label="ID Quiz" name="_id_quiz" style={{ width: "90%" }}>
+        <Form.Item label="Quiz name" name="_id_quiz" style={{ width: "90%" }}>
           <Form.List name="_id_quiz">
             {(fields, { add, remove }) => (
               <>
                 {fields.map((field, index) => (
                   <Row key={field.key} gutter={20} align="middle">
                     <Col flex="auto">
-                      <Form.Item
-                        {...field}
-                        label={`Quiz : ${index + 1}`}
-                        style={{ marginBottom: 10 }}
-                      >
-                        <Input defaultValue={detailModalEdit?.options[index]} />
+                      <Form.Item {...field} style={{ marginBottom: 10 }}>
+                        <Select>
+                          {nameQuiz.map((quiz) => (
+                            <Option key={quiz._id} value={quiz._id}>
+                              {quiz.quiz_name}
+                            </Option>
+                          ))}
+                        </Select>
                       </Form.Item>
                     </Col>
                     <Col>
@@ -265,7 +280,7 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
                     type="dashed"
                     onClick={() => add()}
                     icon={<PlusOutlined />}
-                    disabled={fields.length >= 4}
+                    disabled={fields.length >= 10}
                   >
                     Add Option
                   </Button>
