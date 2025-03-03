@@ -114,6 +114,10 @@ const ModalCreateQuiz: React.FC<PropPageQuiz> = ({ fetchQuiz }) => {
           wrapperCol={{ flex: 1 }}
           colon={false}
         >
+          <Form.Item>
+            <h1>Modal Create Quiz</h1>
+          </Form.Item>
+
           <Form.Item
             label="Quiz name"
             name="quiz_name"

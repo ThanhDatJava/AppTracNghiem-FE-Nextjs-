@@ -182,6 +182,10 @@ const ModalEditQuiz: React.FC<PropPageQuiz> = ({ fetchQuiz, _id }) => {
           <Form.Item label="ID Quiz" name="_id" hidden>
             <Input />
           </Form.Item>
+
+          <Form.Item>
+            <h1>Modal Edit Quiz</h1>
+          </Form.Item>
           <Form.Item
             label="Quiz Name"
             name="quiz_name"

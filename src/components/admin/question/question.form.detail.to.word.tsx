@@ -7,9 +7,8 @@ import {
   Input,
   message,
   Row,
-  Select,
-  Space,
   Upload,
+  Select,
 } from "antd";
 import {
   DeleteOutlined,
@@ -25,38 +24,45 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
+// Định nghĩa kiểu cho question
 interface Question {
-  question: {
-    _id: string;
-
-    question_text: string;
-    options: string[];
-    correct_answer: string;
-
-    image: string;
-  };
-}
-
-interface question {
-  _id: string;
-
   question_text: string;
   options: string[];
   correct_answer: string;
-
+  _id_quiz: string;
   image: string;
 }
 
-const FormDetailQuestion: React.FC<Question> = ({ question }) => {
+// Định nghĩa props cho FormDetailQuestionToWord
+interface FormDetailQuestionToWordProps {
+  question: Question;
+  submitQuestion: boolean;
+}
+
+const FormDetailQuestionToWord: React.FC<FormDetailQuestionToWordProps> = ({
+  question,
+  submitQuestion,
+}) => {
   const [form] = Form.useForm();
   const [image, setImage] = useState<string | undefined>(question?.image);
 
   useEffect(() => {
     if (question) {
-      form.setFieldsValue(question);
-      // setImage(detailModalEdit.image);
+      // Set the form fields value with the incoming 'question' prop
+      form.setFieldsValue({
+        ...question,
+        options: question.options, // Ensure options are set correctly
+      });
+
+      // If an image exists in the question, set the image
+      setImage(question.image);
+
+      // Show the alert if 'showAlert' is true
+      if (submitQuestion) {
+        onFinish();
+      }
     }
-  }, [question, form]);
+  }, [question, form, submitQuestion]);
 
   const onFinish = async () => {
     try {
@@ -65,11 +71,11 @@ const FormDetailQuestion: React.FC<Question> = ({ question }) => {
       // Manually add the image data to the form values
       values.image = image || ""; // Assuming `image` is the Base64 string of the image
       if (values) {
-        values._id = values._id; // Ensure _id is included in the payload
+        values._id_quiz = values._id_quiz; // Ensure _id_quiz is included in the payload
       }
 
       const res = await sendRequest<any>({
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/question/edit-detail-question`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/question/create-detail-question`,
         method: "POST",
         body: values, // Send the entire values object to the API endpoint
       });
@@ -119,6 +125,10 @@ const FormDetailQuestion: React.FC<Question> = ({ question }) => {
         style={{ maxWidth: 600 }}
       >
         <Form.Item name="_id" label="Id" style={{ display: "none" }}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name="_id_quiz" label="Id Quiz " style={{ display: "none" }}>
           <Input />
         </Form.Item>
 
@@ -197,7 +207,7 @@ const FormDetailQuestion: React.FC<Question> = ({ question }) => {
               color: "black",
             }}
           >
-            Submit Change
+            Save
           </Button>
         </Form.Item>
 
@@ -207,4 +217,4 @@ const FormDetailQuestion: React.FC<Question> = ({ question }) => {
   );
 };
 
-export default FormDetailQuestion;
+export default FormDetailQuestionToWord;

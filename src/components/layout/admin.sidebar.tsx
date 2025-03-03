@@ -5,28 +5,21 @@ import { Layout, Menu } from "antd";
 import {
   AppstoreOutlined,
   TeamOutlined,
-  SettingOutlined,
-  BookTwoTone,
-  FileTextOutlined,
-  AppstoreAddOutlined,
-  ReadOutlined,
-  UserAddOutlined,
   UserOutlined,
+  ReadOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
-// import { useRouter } from "next/router";
 
 import { useRouter } from "next/navigation";
 import { AdminContext } from "@/library/admin.context";
-
+import "./admin.sidebar.css";
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 type MenuItem = {
   key: string;
   label: string;
   icon?: JSX.Element;
-  children?: MenuItem[];
+  items?: MenuItem[]; // Using items instead of children for submenus
   onClick?: () => void;
 };
 
@@ -69,53 +62,6 @@ const AdminSideBar = (props: any) => {
         ];
         break;
 
-      // case "TEACHER":
-      //   items = [
-      //     {
-      //       key: "/study",
-      //       label: "Teacher",
-      //       icon: <UserOutlined />,
-      //       onClick: () => handleMenuClick("/study"),
-      //     },
-
-      //     {
-      //       key: "/study/question",
-      //       label: "Manage Question",
-      //       icon: <ReadOutlined />,
-      //       children: [
-      //         {
-      //           key: "/study/question/manage-question",
-      //           label: "Question",
-      //           onClick: () =>
-      //             handleMenuClick("/study/question/manage-question"),
-      //         },
-      //         {
-      //           key: "/study/question/manage-quiz",
-      //           label: "Quiz",
-      //           onClick: () => handleMenuClick("/study/question/manage-quiz"),
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       key: "/study/question",
-      //       label: "Manage Student",
-      //       icon: <UsergroupAddOutlined />,
-      //       children: [
-      //         {
-      //           key: "/study/question/manage-question",
-      //           label: "Score",
-      //           onClick: () =>
-      //             handleMenuClick("/study/question/manage-question"),
-      //         },
-      //         {
-      //           key: "/study/question/manage-quiz",
-      //           label: "Information",
-      //           onClick: () => handleMenuClick("/study/question/manage-quiz"),
-      //         },
-      //       ],
-      //     },
-      //   ];
-      //   break;
       case "TEACHER":
         items = [
           {
@@ -129,7 +75,8 @@ const AdminSideBar = (props: any) => {
             key: "/study/question",
             label: "Manage Question",
             icon: <ReadOutlined />,
-            children: [
+            items: [
+              // Using items instead of children
               {
                 key: "/study/question/manage-question",
                 label: "Question",
@@ -147,11 +94,12 @@ const AdminSideBar = (props: any) => {
             key: "/study/student", // Changed to ensure uniqueness for student management
             label: "Manage Student",
             icon: <UsergroupAddOutlined />,
-            children: [
+            items: [
+              // Using items instead of children
               {
-                key: "/study/question/manage-score", // Changed to a unique path for score
+                key: "/study/student/manage-score", // Changed to a unique path for score
                 label: "Score",
-                onClick: () => handleMenuClick("/study/question/manage-score"),
+                onClick: () => handleMenuClick("/study/student/manage-score"),
               },
               {
                 key: "/study/question/manage-student-info", // Changed to a unique path for student info
@@ -178,11 +126,9 @@ const AdminSideBar = (props: any) => {
             icon: <TeamOutlined />,
             onClick: () => handleMenuClick("/study/user/profile"),
           },
-          // Add more menu items specific to USER role as needed
         ];
         break;
       default:
-        // Default menu items for roles other than ADMIN and USER
         items = [
           {
             key: "/study",
@@ -200,36 +146,36 @@ const AdminSideBar = (props: any) => {
   const items = getMenuItems(session.user.role);
 
   return (
-    <Sider collapsed={collapseMenu}>
+    <Sider
+      collapsed={collapseMenu}
+      style={{
+        backgroundColor: "#f0f2f5", // Adjust this to your preferred color
+        height: "100vh", // Make sure the sidebar takes full height
+        position: "initial", // Keep it fixed to the left
+      }}
+    >
       <Menu
         mode="inline"
         defaultSelectedKeys={["/study"]}
-        style={{ height: "100%", borderRight: 0 }}
-      >
-        {items.map((menuItem) =>
-          menuItem.children ? (
-            <SubMenu
-              key={menuItem.key}
-              icon={menuItem.icon}
-              title={menuItem.label}
-            >
-              {menuItem.children.map((childItem) => (
-                <Menu.Item key={childItem.key} onClick={childItem.onClick}>
-                  {childItem.label}
-                </Menu.Item>
-              ))}
-            </SubMenu>
-          ) : (
-            <Menu.Item
-              key={menuItem.key}
-              icon={menuItem.icon}
-              onClick={menuItem.onClick}
-            >
-              {menuItem.label}
-            </Menu.Item>
-          )
-        )}
-      </Menu>
+        style={{
+          height: "100%",
+          borderRight: 0,
+          backgroundColor: "#f0f2f5", // Change this to your desired color
+        }}
+        items={items.map((menuItem) => ({
+          key: menuItem.key,
+          icon: menuItem.icon,
+          label: menuItem.label,
+          onClick: menuItem.onClick,
+          children: menuItem.items
+            ? menuItem.items.map((childItem) => ({
+                key: childItem.key,
+                label: childItem.label,
+                onClick: childItem.onClick,
+              }))
+            : undefined,
+        }))}
+      />
     </Sider>
   );
 };

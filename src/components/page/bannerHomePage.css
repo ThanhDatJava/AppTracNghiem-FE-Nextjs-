@@ -1,0 +1,60 @@
+.banner-homepage {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+.banner-1 {
+  background-image: url("../../assets/banner1.avif");
+}
+.banner-2 {
+  background-image: url("../../assets/banner2.jpg");
+}
+.banner-3 {
+  background-image: url("../../assets/banner3.jpg");
+}
+.banner-4 {
+  background-image: url("../../assets/banner4.jpg");
+}
+
+.banner-content {
+  color: aliceblue;
+  font-size: x-large;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 160px;
+}
+
+.banner-content-2-4 {
+  color: black;
+}
+
+.btn-banner {
+  background-color: #4caf50; /* Màu nền xanh lá */
+  color: white; /* Màu chữ trắng */
+  font-size: 16px; /* Kích thước chữ */
+  padding: 15px 32px; /* Khoảng cách nội dung trong nút */
+  border: none; /* Không viền */
+  border-radius: 25px; /* Bo góc cho nút */
+  cursor: pointer; /* Con trỏ thay đổi khi hover */
+  transition: all 0.3s ease; /* Hiệu ứng chuyển tiếp khi hover */
+  margin-top: 100px;
+}
+
+.btn-banner:hover {
+  background-color: #45a049; /* Màu nền thay đổi khi hover */
+  transform: translateY(-5px); /* Nâng nút lên khi hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng khi hover */
+}
+
+.btn-banner:active {
+  background-color: #388e3c; /* Màu nền khi nhấn */
+  transform: translateY(0); /* Quay lại vị trí ban đầu khi nhấn */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ khi nhấn */
+}

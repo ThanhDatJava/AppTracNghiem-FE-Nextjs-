@@ -26,12 +26,11 @@ interface ModalEditQuestionProps {
 
 interface QuestionDetail {
   _id: string;
-  category: string;
+
   question_text: string;
   options: string[];
   correct_answer: string;
-  explanation: string[];
-  difficulty_level: string;
+
   image: string;
   _id_quiz: string;
 }
@@ -118,7 +117,7 @@ const ModalCreateQuestionByQuiz: React.FC<ModalEditQuestionProps> = ({
         style={{ marginBottom: "1rem", background: "#28a745" }}
         icon={<PlusOutlined />}
       >
-        Create Question
+        Create Question handicraft
       </Button>
 
       <Modal
@@ -138,38 +137,16 @@ const ModalCreateQuestionByQuiz: React.FC<ModalEditQuestionProps> = ({
           wrapperCol={{ flex: 1 }}
           colon={false}
         >
-          <Form.Item
-            label="Category"
-            name="category"
-            style={{ marginTop: "2rem" }}
-            rules={[{ required: true, message: "Please input the category!" }]}
-          >
-            <Input />
+          <Form.Item>
+            <h1>Modal Create Question</h1>
           </Form.Item>
-
-          <Form.Item
-            label="Level"
-            name="difficulty_level"
-            rules={[
-              {
-                required: true,
-                message: "Please select the difficulty level!",
-              },
-            ]}
-          >
-            <Select style={{ width: "20%" }}>
-              <Select.Option value="easy">Easy</Select.Option>
-              <Select.Option value="medium">Medium</Select.Option>
-              <Select.Option value="hard">Hard</Select.Option>
-            </Select>
-          </Form.Item>
-
           <Form.Item
             label="Question"
             name="question_text"
             rules={[
               { required: true, message: "Please input the question text!" },
             ]}
+            style={{ width: "95%" }}
           >
             <Input />
           </Form.Item>
@@ -219,12 +196,9 @@ const ModalCreateQuestionByQuiz: React.FC<ModalEditQuestionProps> = ({
             rules={[
               { required: true, message: "Please provide the correct answer!" },
             ]}
+            style={{ width: "95%" }}
           >
             <Input />
-          </Form.Item>
-
-          <Form.Item label="Explanation" name="explanation">
-            <Input.TextArea rows={4} />
           </Form.Item>
 
           <Form.Item label="Image">

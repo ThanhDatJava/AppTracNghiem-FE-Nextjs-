@@ -6,6 +6,7 @@ import { sendRequest } from "@/utils/api";
 import FormDetailQuestion from "@/components/admin/question/question.form.detail";
 import { Button } from "antd";
 import ModalCreateQuestionByQuiz from "@/components/admin/quiz/quiz.modal.create.question";
+import ModalCreateQuestionByQuizToWord from "@/components/admin/quiz/quiz.modal.create.question.to.word";
 
 interface Question {
   _id: string;
@@ -77,10 +78,14 @@ const DetailQuiz = ({ params }: { params: { id: string } }) => {
   return (
     <>
       <h1 style={{ marginBottom: "3rem" }}>Bài quiz : {quiz_name}</h1>
-      <ModalCreateQuestionByQuiz
-        createQuestionByQuiz={createQuestionByQuiz}
-        _id_quiz={id}
-      />
+      <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+        <ModalCreateQuestionByQuiz
+          createQuestionByQuiz={createQuestionByQuiz}
+          _id_quiz={id}
+        />
+
+        <ModalCreateQuestionByQuizToWord _id_quiz={id} />
+      </div>
       {quiz.length > 0 ? (
         quiz.map((question: Question, index: number) => (
           <>

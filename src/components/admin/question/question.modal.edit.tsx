@@ -28,12 +28,11 @@ interface ModalEditQuestionProps {
 
 interface QuestionDetail {
   _id: string;
-  category: string;
+
   question_text: string;
   options: string[];
   correct_answer: string;
-  explanation: string[];
-  difficulty_level: string;
+
   image: string;
   _id_quiz: string;
 }
@@ -167,23 +166,15 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
           <Input disabled />
         </Form.Item>
 
+        <Form.Item>
+          <h1>Modal Edit Question</h1>
+        </Form.Item>
+
         <Form.Item
-          label="Category"
-          name="category"
-          style={{ marginTop: "2rem" }}
+          label="Question"
+          name="question_text"
+          style={{ width: "95%" }}
         >
-          <Input />
-        </Form.Item>
-
-        <Form.Item label="Level" name="difficulty_level">
-          <Select style={{ width: "20%" }}>
-            <Select.Option value="easy">Easy</Select.Option>
-            <Select.Option value="medium">Medium</Select.Option>
-            <Select.Option value="hard">Hard</Select.Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item label="Question" name="question_text">
           <Input />
         </Form.Item>
 
@@ -226,12 +217,12 @@ const ModalEditQuestion: React.FC<ModalEditQuestionProps> = ({
           </Form.List>
         </Form.Item>
 
-        <Form.Item label="Correct answer" name="correct_answer">
+        <Form.Item
+          label="Correct answer"
+          name="correct_answer"
+          style={{ width: "82%" }}
+        >
           <Input />
-        </Form.Item>
-
-        <Form.Item label="Explanation" name="explanation">
-          <Input.TextArea rows={4} />
         </Form.Item>
 
         <Form.Item label="Image">
