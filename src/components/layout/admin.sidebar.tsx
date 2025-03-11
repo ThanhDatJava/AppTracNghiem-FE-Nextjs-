@@ -28,6 +28,7 @@ const AdminSideBar = (props: any) => {
   const { collapseMenu } = useContext(AdminContext) || { collapseMenu: false };
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+  const [selectedKey, setSelectedKey] = useState<string>("/");
 
   useEffect(() => {
     setIsMounted(true);
@@ -39,6 +40,7 @@ const AdminSideBar = (props: any) => {
 
   const handleMenuClick = (key: string) => {
     router.push(key);
+    setSelectedKey(key); // Update selected key
   };
 
   const getMenuItems = (role: string): MenuItem[] => {
@@ -72,21 +74,43 @@ const AdminSideBar = (props: any) => {
           },
 
           {
+            key: "/study/classroom",
+            label: "Manage Classroom",
+            icon: <ReadOutlined />,
+            items: [
+              // Using items instead of children
+              {
+                key: "/study/teacher/manage-classroom",
+                label: "Classroom",
+                // onClick: () =>
+                //   handleMenuClick("/study/teacher/manage-classroom"),
+
+                onClick: () => {
+                  // const sessionId = session; // Thay thế bằng ID session thực tế
+                  handleMenuClick(
+                    `/study/teacher/manage-classroom/${session?.user?._id}`
+                  );
+                },
+              },
+            ],
+          },
+
+          {
             key: "/study/question",
             label: "Manage Question",
             icon: <ReadOutlined />,
             items: [
               // Using items instead of children
               {
-                key: "/study/question/manage-question",
+                key: "/study/teacher/manage-question",
                 label: "Question",
                 onClick: () =>
-                  handleMenuClick("/study/question/manage-question"),
+                  handleMenuClick("/study/teacher/manage-question"),
               },
               {
-                key: "/study/question/manage-quiz", // Unique path for the quiz
+                key: "/study/teacher/manage-quiz", // Unique path for the quiz
                 label: "Quiz",
-                onClick: () => handleMenuClick("/study/question/manage-quiz"),
+                onClick: () => handleMenuClick("/study/teacher/manage-quiz"),
               },
             ],
           },
@@ -97,15 +121,15 @@ const AdminSideBar = (props: any) => {
             items: [
               // Using items instead of children
               {
-                key: "/study/student/manage-score", // Changed to a unique path for score
-                label: "Score",
-                onClick: () => handleMenuClick("/study/student/manage-score"),
-              },
-              {
-                key: "/study/question/manage-student-info", // Changed to a unique path for student info
+                key: "/study/teacher/manage-student-info", // Changed to a unique path for student info
                 label: "Information",
                 onClick: () =>
-                  handleMenuClick("/study/question/manage-student-info"),
+                  handleMenuClick("/study/teacher/manage-student-info"),
+              },
+              {
+                key: "/study/teacher/manage-score", // Changed to a unique path for score
+                label: "Score",
+                onClick: () => handleMenuClick("/study/teacher/manage-score"),
               },
             ],
           },
@@ -148,29 +172,50 @@ const AdminSideBar = (props: any) => {
   return (
     <Sider
       collapsed={collapseMenu}
+      className="sider-sidebar"
       style={{
-        backgroundColor: "#f0f2f5", // Adjust this to your preferred color
-        height: "100vh", // Make sure the sidebar takes full height
-        position: "initial", // Keep it fixed to the left
+        minHeight: "100vh",
+        height: "100vh", // Đảm bảo Sider có chiều cao full màn hình
+        position: "initial",
+        top: 0,
+        left: 0,
       }}
     >
       <Menu
         mode="inline"
-        defaultSelectedKeys={["/study"]}
+        defaultSelectedKeys={["/"]}
+        selectedKeys={[selectedKey]}
+        className="menu-sidebar"
         style={{
-          height: "100%",
-          borderRight: 0,
-          backgroundColor: "#f0f2f5", // Change this to your desired color
+          height: "100%", // Chiều cao menu chiếm hết chiều cao của Sider
+          borderRight: 0, // Loại bỏ viền bên phải của menu
         }}
         items={items.map((menuItem) => ({
           key: menuItem.key,
-          icon: menuItem.icon,
-          label: menuItem.label,
+          icon: (
+            <span style={{ color: "#32CD32" }}>
+              {/* Thay đổi màu label tại đây */}
+              {menuItem.icon}
+            </span>
+          ),
+          // label: menuItem.label,
+          label: (
+            <span style={{ color: "#f9f9f9" }}>
+              {/* Thay đổi màu label tại đây */}
+              {menuItem.label}
+            </span>
+          ),
           onClick: menuItem.onClick,
           children: menuItem.items
             ? menuItem.items.map((childItem) => ({
                 key: childItem.key,
-                label: childItem.label,
+
+                label: (
+                  <span style={{ color: "#f9f9f9" }}>
+                    {/* Thay đổi màu label tại đây */}
+                    {childItem.label}
+                  </span>
+                ),
                 onClick: childItem.onClick,
               }))
             : undefined,

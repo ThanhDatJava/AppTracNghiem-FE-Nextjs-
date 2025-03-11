@@ -46,7 +46,7 @@ const ManageQuiz = () => {
   const handleDetailQuiz = (quizId: string, quiz_name: string) => {
     // Navigate to the quiz detail page
 
-    router.push(`/study/question/manage-quiz/${quizId}`); // Replace `/quiz/${quizId}` with your actual route
+    router.push(`/study/teacher/manage-quiz/${quizId}`); // Replace `/quiz/${quizId}` with your actual route
   };
 
   const handleDeleteQuiz = async (quizId: string) => {

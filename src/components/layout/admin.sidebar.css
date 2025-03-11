@@ -1,1 +1,18 @@
- 
+.menu-sidebar {
+  background: url(../../assets/nen-sidebar1.jpg) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+}
+
+.sider-sidebar {
+  background: url(../../assets/nen-sidebar1.jpg) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+/* You can customize the selected item styles here */
+.ant-menu-item-selected {
+  background-color: #1890ff !important; /* Change to your desired color */
+  color: #e41d1d !important;
+}

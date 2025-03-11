@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import "./homepage.css"; // Ensure you have a CSS file for styling
-import PlayoutHomePage from "../page/playoutHomePage/playoutHomePage";
+
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
 import BannerHomePage from "../page/bannerHomePage";

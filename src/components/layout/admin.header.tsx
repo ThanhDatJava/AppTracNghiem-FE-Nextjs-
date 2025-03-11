@@ -1,7 +1,11 @@
 "use client";
 import { AdminContext } from "@/library/admin.context";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button, Layout } from "antd";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Avatar, Button, Layout } from "antd";
 import { useContext } from "react";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
@@ -10,6 +14,8 @@ import { Dropdown, Space } from "antd";
 import { signOut } from "next-auth/react";
 
 const AdminHeader = (props: any) => {
+  const url =
+    "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg";
   const { session } = props;
 
   const { Header } = Layout;
@@ -59,7 +65,11 @@ const AdminHeader = (props: any) => {
             }}
           >
             <Space>
-              Welcome {session?.user?.email ?? ""}
+              <Avatar
+                style={{ backgroundColor: "#87d068" }}
+                icon={<UserOutlined />}
+              />{" "}
+              {session?.user?.email ?? ""}
               <DownOutlined />
             </Space>
           </a>

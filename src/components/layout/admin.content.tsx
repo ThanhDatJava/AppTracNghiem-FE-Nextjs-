@@ -15,7 +15,7 @@ const AdminContent = ({
         style={{
           padding: 24,
           minHeight: "calc(100vh - 180px)",
-          // background: "#ccc",
+          background: `linear-gradient(to right, #00b09b, #96c93d)`,
           // borderRadius: "#ccc",
         }}
       >

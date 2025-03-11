@@ -102,8 +102,6 @@ const ModalEditQuiz: React.FC<PropPageQuiz> = ({ fetchQuiz, _id }) => {
       const values = await form.validateFields();
       values.image = image || "";
 
-      console.log("check values", values.image);
-
       setLoading(true);
       const res = await sendRequest<any>({
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/quiz/edit-detail-quiz`,
